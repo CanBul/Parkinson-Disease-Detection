@@ -3,11 +3,11 @@ import skimage.io
 import librosa
 import os
 
-audio_paths = ['./data/ReadText/PD16C/',
-               './data/ReadText/HC16C/']  # Source paths
+audio_paths = ['/content/drive/MyDrive/Parkinson/data3sec/ReadText/PD16C/',
+               '/content/drive/MyDrive/Parkinson/data3sec/ReadText/HC16C/']  # Source paths
 
-output_paths = ['./data/ReadTextPDImages/',
-                './data/ReadTextHCImages/']  # Output Paths
+output_paths = ['/content/Parkinson-Disease-Detection/data/KGL/ReadTextPDImages/',
+                '/content/Parkinson-Disease-Detection/data/KGL/ReadTextHCImages/']  # Output Paths
 
 # Create folders if they don't exist
 for path in output_paths:
@@ -32,11 +32,11 @@ def spectrogram_image(sample, FileName, outFolder, sampleRate):
     # min-max scale to fit inside 8-bit range
     img = scale_minmax(mels, 0, 255).astype(np.uint8)
     img = np.flip(img, axis=0)  # put low frequencies at the bottom in image
-    img = 255-img  # invert. make black==more energy
-    img = np.stack((img,)*3, axis=-1)  # 3 channel conversion
+    img = 255 - img  # invert. make black==more energy
+    img = np.stack((img,) * 3, axis=-1)  # 3 channel conversion
 
     # save as PNG
-    skimage.io.imsave(filePath+'.png', img)
+    skimage.io.imsave(filePath + '.png', img)
 
 
 def convertToSpectogram(audioPaths, outPaths):
@@ -49,7 +49,7 @@ def convertToSpectogram(audioPaths, outPaths):
 
         for f in files:
 
-            sample, sampleRate = librosa.load(str(audioPath)+f)
+            sample, sampleRate = librosa.load(str(audioPath) + f)
             spectrogram_image(sample, f, outPath, sampleRate)
 
 

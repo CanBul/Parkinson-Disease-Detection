@@ -5,14 +5,16 @@ from tensorflow import keras
 import sys
 sys.path.append('..')
 from tqdm.keras import TqdmCallback
-from readImages import read_images
+from readImages import read_images, splitIDsTrainTest
 
-pathList = ['../data/ReadTextPDImages/', '../data/ReadTextHCImages/']
-x_data, y_data = read_images(pathList)
+pathList = ['/content/Parkinson-Disease-Detection/data/KGL/ReadTextPDImages/',
+            '/content/Parkinson-Disease-Detection/data/KGL/ReadTextHCImages/']
+train_files, test_files = splitIDsTrainTest(pathList, splitSize=0.2)
+X_train, X_test, y_train, y_test = read_images(
+    pathList, train_files, test_files)
+
 
 # Split data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(
-    x_data, y_data, test_size=0.20, random_state=42)
 
 base_model = keras.applications.Xception(
     weights='imagenet',  # Load weights pre-trained on ImageNet.
