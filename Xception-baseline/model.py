@@ -2,6 +2,7 @@ from sklearn.model_selection import train_test_split
 import tensorflow as tf
 from tensorflow import keras
 
+
 import sys
 sys.path.append('..')
 from tqdm.keras import TqdmCallback
