@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import os
 import math
-#Hello
+from sklearn.model_selection import StratifiedKFold
 
 
 def read_imagesWOsplit(pathList):
@@ -76,28 +76,36 @@ def read_images(pathList, train_files, test_files):
     return x_train, x_test, y_train, y_test
 
 
-def splitIDsTrainTest(pathList, splitSize=0.2):
+def splitIDsTrainTest(pathList, n_split=6):
 
-    hc_ids = []
-    pd_ids = []
+  hc_ids = []
+  pd_ids = []
 
-    for i in range(len(pathList)):
-        imgPath = pathList[i]
+  for i in range(len(pathList)):
+      imgPath = pathList[i]
 
-        if 'HC' in imgPath:
-            hc_ids.extend(list(np.unique(
-                [file.split('_')[1] for file in os.listdir(imgPath) if file.endswith('.png')])))
-        else:
-            pd_ids.extend(list(np.unique(
-                [file.split('_')[1] for file in os.listdir(imgPath) if file.endswith('.png')])))
+      if 'HC' in imgPath:
+          hc_ids.extend(list(np.unique(
+              [file.split('_')[1] for file in os.listdir(imgPath) if file.endswith('.png')])))
+      else:
+          pd_ids.extend(list(np.unique(
+              [file.split('_')[1] for file in os.listdir(imgPath) if file.endswith('.png')])))
 
-    hc_ids = np.unique(hc_ids)
-    pd_ids = np.unique(pd_ids)
+  hc_ids = np.unique(hc_ids).tolist()
+  pd_ids = np.unique(pd_ids).tolist()
 
-    train_files = pd_ids[:int(
-        math.ceil((1 - splitSize) * len(pd_ids)))].tolist()
+  X = hc_ids + pd_ids
+  y = [0]*len(hc_ids) + [1]*len(pd_ids)
+  kf=StratifiedKFold(n_splits=n_split)
+  train_folds=[]
+  test_folds = []
+  for train_index, test_index in kf.split(X,y):
+    train_folds.append(np.array(X)[train_index])
+    test_folds.append(np.array(X)[test_index])
+
+  return train_folds, test_folds
+"""
+    train_files = pd_ids[:int(math.ceil((1 - splitSize) * len(pd_ids)))].tolist()
     train_files.extend(hc_ids[:int(math.ceil((1 - splitSize) * len(hc_ids)))])
     test_files = pd_ids[-int(math.floor(splitSize * len(pd_ids))):].tolist()
-    test_files.extend(hc_ids[-int(math.floor(splitSize * len(hc_ids))):])
-
-    return train_files, test_files
+    test_files.extend(hc_ids[-int(math.floor(splitSize * len(hc_ids))):])"""
