@@ -14,6 +14,11 @@ pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/ReadTextPDIm
             #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/SpontaneousDialoguePDImages/',
             #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/SpontaneousDialogueHCImages/'
             ]
+pathList = ['/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data3sec/spectrograms/test/',
+            '/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data3sec/spectrograms/train/',
+            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/SpontaneousDialoguePDImages/',
+            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/SpontaneousDialogueHCImages/'
+            ]
 
 n_split=6
 train_folds, test_folds = splitIDsTrainTest(pathList, n_split=n_split)
