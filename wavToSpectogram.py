@@ -5,20 +5,10 @@ import librosa
 import librosa.display
 import os
 
-audio_paths = ['/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data2sec/ReadText/HC16C/',
-               '/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data2sec/ReadText/PD16C/',
-               '/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data3sec/ReadText/PD16C/',
-               '/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data3sec/ReadText/HC16C/',
-               '/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data3sec/SpontaneousDialogue/PD16C/',
-               '/content/drive/MyDrive/Parkinson/preprocessedSpeechFiles/data3sec/SpontaneousDialogue/HC16C/',
+audio_paths = ['/content/drive/MyDrive/Parkinson/italianSpeechDataset/data2sec/HC/',
                ]  # Source paths
 
-output_paths = ['/content/Parkinson-Disease-Detection/data/KGL/data2sec/RGBimages/ReadTextHCimages/',
-                '/content/Parkinson-Disease-Detection/data/KGL/data2sec/RGBimages/ReadTextPDimages/',
-                '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextPDimages/',
-                '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextHCimages/',
-                '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialoguePDimages/',
-                '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialogueHCimages/'
+output_paths = ['/content/Parkinson-Disease-Detection/data/IT/data2sec/RGBimages/HCimages/',
                 ]  # Output Paths
 
 # Create folders if they don't exist
