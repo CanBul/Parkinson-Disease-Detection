@@ -5,10 +5,10 @@ import librosa
 import librosa.display
 import os
 
-audio_paths = ['/content/drive/MyDrive/Parkinson/italianSpeechDataset/data2sec/HC/',
+audio_paths = ['/content/drive/MyDrive/Parkinson/italianSpeechDataset/data2sec/PD/',
                ]  # Source paths
 
-output_paths = ['/content/Parkinson-Disease-Detection/data/IT/data2sec/RGBimages/HCimages/',
+output_paths = ['/content/Parkinson-Disease-Detection/data/IT/data2sec/RGBimages/PDimages/',
                 ]  # Output Paths
 
 # Create folders if they don't exist
