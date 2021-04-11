@@ -10,8 +10,8 @@ sys.path.append('..')
 from tqdm.keras import TqdmCallback
 from readImages import read_images, splitIDsTrainTest
 
-pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextPDimages/',
-            '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextHCimages/',
+pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/ReadTextPDImages/',
+            '/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/ReadTextHCImages/',
             #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialoguePDimages/',
             #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialogueHCimages/'
             ]
@@ -26,11 +26,11 @@ for fold in range(n_split):
 
   base_model = keras.applications.Xception(
       weights='imagenet',  # Load weights pre-trained on ImageNet.
-      input_shape=(221, 223, 3),
+      input_shape=(128, 130, 3),
       include_top=False)
 
   base_model.trainable = False
-  inputs = keras.Input(shape=(221, 223, 3))
+  inputs = keras.Input(shape=(128, 130, 3))
 
   x = base_model(inputs, training=False)
   x = keras.layers.GlobalAveragePooling2D()(x)
@@ -49,7 +49,7 @@ for fold in range(n_split):
       from_logits=True), metrics=[keras.metrics.BinaryAccuracy()])
 
   print("---------Training for fold "+str(fold+1)+"------------")
-  model.fit(x=X_train, y=y_train, batch_size=32, epochs=40, verbose=1)#, callbacks=callbacks)
+  model.fit(x=X_train, y=y_train, batch_size=32, epochs=80, verbose=1)#, callbacks=callbacks)
   y_pred = np.argmax(model.predict(X_test), axis=1)
 
   #accuracy
