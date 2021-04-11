@@ -10,10 +10,10 @@ sys.path.append('..')
 from tqdm.keras import TqdmCallback
 from readImages import read_images, splitIDsTrainTest
 
-pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextPDImages/',
-            '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextHCImages/',
-            '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialoguePDImages/',
-            '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialogueHCImages/'
+pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextPDimages/',
+            '/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/ReadTextHCimages/',
+            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialoguePDimages/',
+            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialogueHCimages/'
             ]
 
 n_split=6
@@ -26,11 +26,11 @@ for fold in range(n_split):
 
   base_model = keras.applications.Xception(
       weights='imagenet',  # Load weights pre-trained on ImageNet.
-      input_shape=(128, 130, 3),
+      input_shape=(221, 223, 3),
       include_top=False)
 
   base_model.trainable = False
-  inputs = keras.Input(shape=(128, 130, 3))
+  inputs = keras.Input(shape=(221, 223, 3))
 
   x = base_model(inputs, training=False)
   x = keras.layers.GlobalAveragePooling2D()(x)
@@ -38,18 +38,18 @@ for fold in range(n_split):
   model = keras.Model(inputs, outputs)
 
   early_stop = EarlyStopping(monitor = 'val_loss', min_delta = 0.001, 
-                            patience = 10, mode = 'min', verbose = 1,
+                            patience = 5, mode = 'min', verbose = 1,
                             restore_best_weights = True)
   reduce_lr = ReduceLROnPlateau(monitor = 'val_loss', factor = 0.3, 
-                                patience = 10, min_delta = 0.001, 
+                                patience = 4, min_delta = 0.001, 
                                 mode = 'min', verbose = 1)
   callbacks = [early_stop, reduce_lr]
 
-  model.compile(optimizer=keras.optimizers.Adam(), loss=keras.losses.BinaryCrossentropy(
+  model.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss=keras.losses.BinaryCrossentropy(
       from_logits=True), metrics=[keras.metrics.BinaryAccuracy()])
 
   print("---------Training for fold "+str(fold+1)+"------------")
-  model.fit(x=X_train, y=y_train, validation_split=0.2, epochs=60, verbose=1, callbacks=callbacks)
+  model.fit(x=X_train, y=y_train, batch_size=32, epochs=40, verbose=1)#, callbacks=callbacks)
   y_pred = np.argmax(model.predict(X_test), axis=1)
 
   #accuracy
