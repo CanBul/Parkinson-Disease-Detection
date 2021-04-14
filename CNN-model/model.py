@@ -47,7 +47,7 @@ for fold in range(n_split):
   model.add(Flatten())
   model.add(Dense(256, activation = "relu"))
   model.add(Dropout(0.5))
-  model.add(Dense(1))
+  model.add(Dense(1, activation = "sigmoid"))
 
   optimizer = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
   model.compile(optimizer = optimizer, loss=keras.losses.BinaryCrossentropy(
@@ -62,9 +62,8 @@ for fold in range(n_split):
   callbacks = [early_stop, reduce_lr]
 
   print("---------Training for fold "+str(fold+1)+"------------")
-  model.fit(x=X_train, y=y_train, batch_size=32, epochs=80, verbose=1)#, callbacks=callbacks)
-  y_pred = np.argmax(model.predict(X_test), axis=1)
-
+  model.fit(x=X_train, y=y_train, batch_size=16, epochs=30, verbose=1)#, callbacks=callbacks)
+  y_pred = (model.predict(X_test) > 0.5).astype("int32")
   #accuracy
   acc=accuracy_score(y_test, y_pred)
   print("---------Fold "+str(fold+1)+" Accuracy "+str(acc), " ------------\n")

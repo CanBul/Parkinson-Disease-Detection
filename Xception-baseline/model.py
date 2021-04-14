@@ -50,7 +50,7 @@ for fold in range(n_split):
 
   print("---------Training for fold "+str(fold+1)+"------------")
   model.fit(x=X_train, y=y_train, batch_size=32, epochs=80, verbose=1)#, callbacks=callbacks)
-  y_pred = np.argmax(model.predict(X_test), axis=1)
+  y_pred = (model.predict(X_test) > 0.5).astype("int32")
 
   #accuracy
   acc=accuracy_score(y_test, y_pred)
