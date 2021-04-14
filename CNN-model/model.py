@@ -1,7 +1,9 @@
 from sklearn.model_selection import train_test_split
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
+import keras
+from keras.layers import Dense, Dropout, Flatten, Convolution2D, MaxPooling2D
+from keras.models import Sequential
+from keras.optimizers import RMSprop
+from keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau
 from sklearn.metrics import accuracy_score
 import numpy as np
 
@@ -24,18 +26,32 @@ for fold in range(n_split):
   X_train, X_test, y_train, y_test = read_images(
       pathList, train_folds[fold], test_folds[fold])
 
-  base_model = keras.applications.Xception(
-      weights='imagenet',  # Load weights pre-trained on ImageNet.
-      input_shape=(128, 130, 3),
-      include_top=False)
+  model = Sequential()
 
-  base_model.trainable = False
-  inputs = keras.Input(shape=(128, 130, 3))
+  model.add(Convolution2D(filters = 32, kernel_size = (5,5),padding = 'Same',
+                  activation ='relu', input_shape = (128,130,3)))
+  model.add(Convolution2D(filters = 32, kernel_size = (5,5),padding = 'Same',
+                  activation ='relu'))
+  model.add(MaxPooling2D(pool_size=(2,2)))
+  model.add(Dropout(0.25))
 
-  x = base_model(inputs, training=False)
-  x = keras.layers.GlobalAveragePooling2D()(x)
-  outputs = keras.layers.Dense(1)(x)
-  model = keras.Model(inputs, outputs)
+
+  model.add(Convolution2D(filters = 64, kernel_size = (3,3),padding = 'Same',
+                  activation ='relu'))
+  model.add(Convolution2D(filters = 64, kernel_size = (3,3),padding = 'Same',
+                  activation ='relu'))
+  model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  model.add(Dropout(0.25))
+
+
+  model.add(Flatten())
+  model.add(Dense(256, activation = "relu"))
+  model.add(Dropout(0.5))
+  model.add(Dense(1))
+
+  optimizer = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
+  model.compile(optimizer = optimizer, loss=keras.losses.BinaryCrossentropy(
+      from_logits=True), metrics=[keras.metrics.BinaryAccuracy()])
 
   early_stop = EarlyStopping(monitor = 'val_loss', min_delta = 0.001, 
                             patience = 5, mode = 'min', verbose = 1,
@@ -44,9 +60,6 @@ for fold in range(n_split):
                                 patience = 4, min_delta = 0.001, 
                                 mode = 'min', verbose = 1)
   callbacks = [early_stop, reduce_lr]
-
-  model.compile(optimizer=keras.optimizers.Adam(lr=0.001), loss=keras.losses.BinaryCrossentropy(
-      from_logits=True), metrics=[keras.metrics.BinaryAccuracy()])
 
   print("---------Training for fold "+str(fold+1)+"------------")
   model.fit(x=X_train, y=y_train, batch_size=32, epochs=80, verbose=1)#, callbacks=callbacks)
