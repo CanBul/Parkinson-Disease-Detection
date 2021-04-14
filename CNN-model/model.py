@@ -47,7 +47,7 @@ for fold in range(n_split):
   model.add(Flatten())
   model.add(Dense(256, activation = "relu"))
   model.add(Dropout(0.5))
-  model.add(Dense(1, activation = "sigmoid"))
+  model.add(Dense(1))
 
   optimizer = RMSprop(lr=0.001, rho=0.9, epsilon=1e-08, decay=0.0)
   model.compile(optimizer = optimizer, loss=keras.losses.BinaryCrossentropy(
