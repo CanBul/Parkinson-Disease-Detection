@@ -1,4 +1,3 @@
-from sklearn.model_selection import train_test_split
 import keras
 from keras.layers import Dense, Dropout, Flatten, Convolution2D, MaxPooling2D
 from keras.models import Sequential
@@ -9,7 +8,6 @@ import numpy as np
 
 import sys
 sys.path.append('..')
-from tqdm.keras import TqdmCallback
 from readImages import read_images, splitIDsTrainTest
 
 pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/ReadTextPDImages/',
@@ -62,7 +60,7 @@ for fold in range(n_split):
   callbacks = [early_stop, reduce_lr]
 
   print("---------Training for fold "+str(fold+1)+"------------")
-  model.fit(x=X_train, y=y_train, batch_size=16, epochs=30, verbose=1)#, callbacks=callbacks)
+  model.fit(x=X_train, y=y_train, batch_size=8, epochs=20, verbose=1)#, callbacks=callbacks)
   y_pred = (model.predict(X_test) > 0.5).astype("int32")
   #accuracy
   acc=accuracy_score(y_test, y_pred)
