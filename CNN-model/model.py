@@ -12,8 +12,8 @@ from readImages import read_images, splitIDsTrainTest
 
 pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/ReadTextPDImages/',
             '/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/ReadTextHCImages/',
-            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialoguePDimages/',
-            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialogueHCimages/'
+            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/SpontaneousDialoguePDImages/',
+            #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/SpontaneousDialogueHCImages/'
             ]
 
 n_split=4

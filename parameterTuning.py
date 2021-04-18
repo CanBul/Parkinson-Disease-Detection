@@ -16,8 +16,8 @@ pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/Rea
 
 x_data, y_data = read_imagesWOsplit(pathList)
 
-p = {'lr':[0.001, 0.01, 0.05, 0.1],
-      'batch_size': [4,8,16,32,64],
+p = {'lr':[0.001, 0.01, 0.05],
+      'batch_size': [4,8,16,32],
       'epochs': [20, 30, 40, 60, 80]}
 
 def cnn_model(x_train, y_train, x_val, y_val, params):
@@ -56,4 +56,18 @@ def cnn_model(x_train, y_train, x_val, y_val, params):
 
   return out, model
 
-scan_object = talos.Scan(x_data, y_data, model=cnn_model, val_split=0.2,params=p, experiment_name='iris', fraction_limit=.1)
+scan_object = talos.Scan(x_data, y_data, model=cnn_model, val_split=0.2,params=p, experiment_name='parkinson', fraction_limit=.1)
+
+n_split=5
+train_folds, test_folds = splitIDsTrainTest(pathList, n_split=n_split)
+
+#cross-validation evaluation
+X_train, X_test, y_train, y_test = read_images(
+    pathList, train_folds[0], test_folds[0])
+scan_object.evaluate_models(x_val=X_test,
+                          y_val=y_test,
+                          task = 'binary',
+                          metric='val_binary_accuracy',
+                          n_models=10,
+                          folds=n_split,
+                          shuffle=True)
