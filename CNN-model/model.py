@@ -16,7 +16,7 @@ pathList = ['/content/Parkinson-Disease-Detection/data/KGL/data3sec/BWimages/Rea
             #'/content/Parkinson-Disease-Detection/data/KGL/data3sec/RGBimages/SpontaneousDialogueHCimages/'
             ]
 
-n_split=5
+n_split=4
 train_folds, test_folds = splitIDsTrainTest(pathList, n_split=n_split)
 
 accuracies = []
@@ -60,7 +60,7 @@ for fold in range(n_split):
   callbacks = [early_stop, reduce_lr]
 
   print("---------Training for fold "+str(fold+1)+"------------")
-  model.fit(x=X_train, y=y_train, batch_size=8, epochs=20, verbose=1)#, callbacks=callbacks)
+  model.fit(x=X_train, y=y_train, batch_size=32, epochs=60, verbose=1)#, callbacks=callbacks)
   y_pred = (model.predict(X_test) > 0.5).astype("int32")
   #accuracy
   acc=accuracy_score(y_test, y_pred)
