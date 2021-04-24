@@ -5,10 +5,10 @@ import librosa
 import librosa.display
 import os
 
-audio_paths = ['/content/drive/MyDrive/Parkinson/italianSpeechDataset/data2sec/PD/',
+audio_paths = ['/content/drive/MyDrive/Parkinson/italianSpeechDataset/data3sec/HC/',
                ]  # Source paths
 
-output_paths = ['/content/Parkinson-Disease-Detection/data/IT/data2sec/RGBimages/PDimages/',
+output_paths = ['/content/Parkinson-Disease-Detection/data/IT/data3sec/BWimages/HCImages/',
                 ]  # Output Paths
 
 # Create folders if they don't exist
@@ -72,4 +72,4 @@ def convertToSpectogram(audioPaths, outPaths, typ='RGB'):
             else:
               bw_spectrogram_image(sample, f, outPath, sampleRate)
 
-convertToSpectogram(audio_paths, output_paths, 'RGB')
+convertToSpectogram(audio_paths, output_paths, 'BW')
