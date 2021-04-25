@@ -41,6 +41,7 @@ def read_images(pathList, train_files, test_files):
     y_train = []
     x_test = []
     y_test = []
+    fnames = []
 
     for i in range(len(pathList)):
         imgPath = pathList[i]
@@ -63,6 +64,7 @@ def read_images(pathList, train_files, test_files):
 
             else:
                 x_test.append(img)
+                fnames.append(f.split('_')[1])
 
                 # Make sure your directory name has PD in it for PD patients!!
                 if 'PD' in imgPath:
@@ -73,7 +75,7 @@ def read_images(pathList, train_files, test_files):
     x_train, y_train = np.array(x_train), np.array(y_train)
     x_test, y_test = np.array(x_test), np.array(y_test)
 
-    return x_train, x_test, y_train, y_test
+    return x_train, x_test, y_train, y_test, fnames
 
 
 def splitIDsTrainTest(pathList, n_split=6):
