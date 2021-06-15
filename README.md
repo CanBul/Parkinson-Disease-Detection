@@ -6,5 +6,9 @@ For generations, assessment of speech abnormalities in neurodegenerative disorde
 # Datasets
 
 - Mobile Device Voice Recordings at King's College London (MDVR-KCL) from both early and advanced Parkinson's disease patients and healthy controls https://zenodo.org/record/2867216#.YMjBFpozarV
-- Italian parkison's voice and speech 
+- Italian Parkison's Voice and Speech 
 https://ieee-dataport.org/open-access/italian-parkinsons-voice-and-speech
+
+# Presentation
+
+https://www.youtube.com/watch?v=NBmKxE21VSs
