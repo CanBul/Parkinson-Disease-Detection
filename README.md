@@ -12,3 +12,7 @@ https://ieee-dataport.org/open-access/italian-parkinsons-voice-and-speech
 # Presentation
 
 https://www.youtube.com/watch?v=NBmKxE21VSs
+
+# Web Application
+
+https://aiprojects.inzva.com/parkinson/
